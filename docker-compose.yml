@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=choppi
+      - POSTGRES_USER=choppi_user
+      - POSTGRES_PASSWORD=choppi_password
+      - POSTGRES_NAME=default
+      - POSTGRES_BMA_SYNCHRONIZE=false
+      - API_SCHEMA_DB=public
+      - JWT_SECRET=your-jwt-secret-key
+    depends_on:
+      - db
+    networks:
+      - choppi-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=choppi
+      - POSTGRES_USER=choppi_user
+      - POSTGRES_PASSWORD=choppi_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - choppi-network
+
+volumes:
+  postgres_data:
+
+networks:
+  choppi-network:
+    driver: bridge
