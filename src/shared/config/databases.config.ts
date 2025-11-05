@@ -19,7 +19,7 @@ export const CHOPPI_DATABASE_CONFIGURATION: TypeOrmModuleOptions & SeederOptions
   ssl: CONFIGURATION_SERVICE.get('SUPABASE_DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
   autoLoadEntities: true,
   synchronize: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') == 'true',
-  entities: [__dirname + '/../**/*.entity.{ts,js}'],
+  entities: ['dist/**/*.entity.{ts,js}'],
   migrations: ["dist/migrations/**.js"],
   seeds: ['dist/seeds/**.js'],
   seedTracking: false
@@ -39,7 +39,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
   autoLoadEntities: true,
   synchronize: configService.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') === 'true', 
   
-  entities: [__dirname + '/../**/*.entity.{ts,js}'],
+  entities: ['dist/**/*.entity.{ts,js}'],
   migrations: [__dirname + '/../migrations/*.{ts,js}'],
   seeds: [__dirname + '/../seeds/*.{ts,js}'],
   seedTracking: false
