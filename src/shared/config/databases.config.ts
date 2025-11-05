@@ -16,6 +16,7 @@ export const CHOPPI_DATABASE_CONFIGURATION: TypeOrmModuleOptions & SeederOptions
   username: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_USER'),
   password: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_PASSWORD'),
   schema: (CONFIGURATION_SERVICE.get('API_SCHEMA_DB') && CONFIGURATION_SERVICE.get('API_SCHEMA_DB') != '') ? CONFIGURATION_SERVICE.get('API_SCHEMA_DB') : undefined,
+  ssl: CONFIGURATION_SERVICE.get<boolean>('SUPABASE_DB_SSL') ? { rejectUnauthorized: false } : false,
   autoLoadEntities: true,
   synchronize: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') == 'true',
   entities: ["src/**/*.entity.ts"],
