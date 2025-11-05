@@ -1,7 +1,9 @@
+import { config } from "dotenv";
 import { ConfigService } from "@nestjs/config";
 import { SeederOptions } from 'typeorm-extension';
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
+config();
 
 export const CONFIGURATION_SERVICE: ConfigService = new ConfigService();
 
@@ -17,7 +19,7 @@ export const CHOPPI_DATABASE_CONFIGURATION: TypeOrmModuleOptions & SeederOptions
   ssl: CONFIGURATION_SERVICE.get('SUPABASE_DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
   autoLoadEntities: true,
   synchronize: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') == 'true',
-  entities: ["src/**/*.entity.ts"],
+  entities: [__dirname + '/../**/*.entity.{ts,js}'],
   migrations: ["dist/migrations/**.js"],
   seeds: ['dist/seeds/**.js'],
   seedTracking: false
