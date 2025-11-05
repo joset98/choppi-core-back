@@ -2,6 +2,10 @@ import { config } from "dotenv";
 import { ConfigService } from "@nestjs/config";
 import { SeederOptions } from 'typeorm-extension';
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { StoreProduct } from "src/stores/store-product.entity";
+import { User } from "src/auth/user.entity";
+import { Store } from "src/stores/store.entity";
+import { Product } from "src/products/product.entity";
 
 config();
 
@@ -17,9 +21,10 @@ export const CHOPPI_DATABASE_CONFIGURATION: TypeOrmModuleOptions & SeederOptions
   password: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_PASSWORD'),
   schema: (CONFIGURATION_SERVICE.get('API_SCHEMA_DB') && CONFIGURATION_SERVICE.get('API_SCHEMA_DB') != '') ? CONFIGURATION_SERVICE.get('API_SCHEMA_DB') : undefined,
   ssl: CONFIGURATION_SERVICE.get('SUPABASE_DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
-  autoLoadEntities: true,
+  autoLoadEntities: false,
   synchronize: CONFIGURATION_SERVICE.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') == 'true',
-  entities: ['dist/**/*.entity.{ts,js}'],
+  // entities: ['dist/**/*.entity.{ts,js}'],
+  entities: [StoreProduct, User, Store, Product],
   migrations: ["dist/migrations/**.js"],
   seeds: ['dist/seeds/**.js'],
   seedTracking: false
@@ -36,10 +41,11 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
   schema: configService.get('API_SCHEMA_DB') || undefined,
   
   ssl: configService.get('SUPABASE_DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
-  autoLoadEntities: true,
+  autoLoadEntities: false,
   synchronize: configService.getOrThrow('POSTGRES_BMA_SYNCHRONIZE') === 'true', 
   
-  entities: ['dist/**/*.entity.{ts,js}'],
+  // entities: ['dist/**/*.entity.{ts,js}'],
+  entities: [StoreProduct, User, Store, Product],
   migrations: [__dirname + '/../migrations/*.{ts,js}'],
   seeds: [__dirname + '/../seeds/*.{ts,js}'],
   seedTracking: false
