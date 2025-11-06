@@ -15,7 +15,7 @@ async function createApp() {
     .addTag('auth', 'Authentication operations')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('documentation', app, document);
 
   await app.init();
   return app;
@@ -34,7 +34,7 @@ async function runLocal() {
 
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);
-  console.log(`Swagger documentation: http://localhost:${port}/docs`);
+  console.log(`Swagger documentation: http://localhost:${port}/documentation`);
 }
 
 if (process.env.VERCEL_ENV === undefined) {
